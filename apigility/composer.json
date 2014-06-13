@@ -17,7 +17,7 @@
         "issues": "https://github.com/zfcampus/zf-apigility-skeleton/issues"
     },
     "config": {
-    	"process-timeout": 5000
+        "process-timeout": 5000
     },
     "extra": {
         "branch-alias": {
@@ -28,14 +28,14 @@
     "require": {
         "php": ">=5.3.23",
         "zendframework/zendframework": "~2.3",
-        "zfcampus/zf-apigility": "0.8.0",
+        "zfcampus/zf-apigility": "~1.0",
         "zfcampus/zf-apigility-documentation": "~1.0",
         "zfcampus/zf-development-mode": "~2.0"
     },
     "require-dev": {
         "zendframework/zftool": "dev-master",
         "zendframework/zend-developer-tools": "dev-master",
-        "zfcampus/zf-apigility-admin": "0.8.*",
+        "zfcampus/zf-apigility-admin": "~1.0",
         "zfcampus/zf-apigility-welcome": "~1.0",
         "zfcampus/zf-deploy": "~1.0"
     }
