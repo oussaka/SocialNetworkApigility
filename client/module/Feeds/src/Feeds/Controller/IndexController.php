@@ -33,10 +33,11 @@ class IndexController extends AbstractActionController
         $viewData = array();
         
         $flashMessenger = $this->flashMessenger();
-        
         $username = $this->params()->fromRoute('username');
+
         $currentFeedId = $this->params()->fromRoute('feed_id');
-        
+//       var_dump($currentFeedId);
+//die('ici');
         $userData = ApiClient::getUser($username);
         if ($userData !== FALSE) {
             $hydrator = new ClassMethods();
@@ -54,11 +55,14 @@ class IndexController extends AbstractActionController
         
         $hydrator = new ClassMethods();
         $response = ApiClient::getFeeds($username);
+
         $feeds = array();
-        foreach ($response as $r) {
-            $feeds[$r['id']] = $hydrator->hydrate($r, new Feed());
+        if(is_array($response) ) {
+            foreach ($response as $r) {
+                $feeds[$r['id']] = $hydrator->hydrate($r, new Feed());
+            }
         }
-        
+
         if ($currentFeedId === null && !empty($feeds)) {
             $currentFeedId = reset($feeds)->getId();
         }
@@ -96,7 +100,7 @@ class IndexController extends AbstractActionController
         $viewData['username'] = $username;
         $viewData['feedsMenu'] = $feedsMenu;
         $viewData['user'] = $user;
-        $viewData['paginator'] = $paginator;
+        // $viewData['paginator'] = $paginator;
         $viewData['feedId'] = $currentFeedId;
         $viewData['feed'] = $currentFeed;
         
@@ -121,13 +125,15 @@ class IndexController extends AbstractActionController
         
         if ($request->isPost()) {
             $data = $request->getPost()->toArray();
-            
+
             $response = ApiClient::addFeedSubscription($username, array('url' => $data['url']));
-            
+            // var_dump($response); die;
+
             if ($response['result'] == TRUE) {
                 $this->flashMessenger()->addMessage('Subscribed successfully!');
             } else {
-                return $this->getResponse()->setStatusCode(500);
+               $this->flashMessenger()->addMessage('error', 'Error on feed subscribe!');
+               // return $this->getResponse()->setStatusCode(500);
             }
         }
         

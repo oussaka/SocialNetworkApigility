@@ -53,10 +53,7 @@ class WallService implements ServiceManagerAwareInterface
 
     public function getWall($username)
     {
-        
-        // return $this->getMapper()->fetchAll();
-        // return $this->getMapper()->getWall($username);
-        // return true;
+
         $usersTable = $this->getUsersTable();
         $userStatusesTable = $this->getUserStatusesTable();
         $userImagesTable = $this->getUserImagesTable();

@@ -29,6 +29,7 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
+        set_time_limit("80");
         $viewData = array();
         $flashMessenger = $this->flashMessenger();
         
@@ -38,8 +39,9 @@ class IndexController extends AbstractActionController
         if ($loggedInUser === null) {
             return;
         } */
-        
+
         $username = $this->params()->fromRoute('username');
+        $this->layout()->username = $username;
         $userData = ApiClient::getUser($username);
 
         if ($userData !== FALSE) {

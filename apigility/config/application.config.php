@@ -24,7 +24,8 @@ return array(
         'Application',
         'Music',
         'Users',
-        'Wall'
+        'Wall',
+        'Feeds'
     ),
     'module_listener_options' => array(
         'module_paths' => array(

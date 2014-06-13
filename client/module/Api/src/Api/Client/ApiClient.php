@@ -95,6 +95,8 @@ class ApiClient {
     public static function addFeedSubscription($username, $postData)
     {
         $url = self::$endpointHost . sprintf(self::$endpointFeeds, $username);
+        var_dump($url);
+        var_dump($postData); die;
         return self::doRequest($url, $postData, Request::METHOD_POST);
     }
     
@@ -179,7 +181,7 @@ class ApiClient {
             self::$client->setEncType(Client::ENC_URLENCODED);
             self::$client->setOptions(array(
                 'maxredirects' => 0,
-                'timeout'      => 30
+                'timeout'      => 40
             ));
             $headers = new \Zend\Http\Headers();
             $headers->addHeaders(array(

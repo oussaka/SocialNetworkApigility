@@ -47,7 +47,6 @@ return array(
             'entity_http_methods' => array(
                 0 => 'GET',
                 1 => 'POST',
-                2 => 'PUT',
             ),
             'collection_http_methods' => array(),
             'collection_query_whitelist' => array(),

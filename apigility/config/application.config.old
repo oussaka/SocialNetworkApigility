@@ -6,7 +6,6 @@
  */
 return array(
     'modules' => array(
-        'Application',
         'ZF\\DevelopmentMode',
         'ZF\\Apigility',
         'ZF\\Apigility\\Provider',
@@ -22,7 +21,10 @@ return array(
         'ZF\\Rest',
         'ZF\\Rpc',
         'ZF\\Versioning',
-        17 => 'Music'
+        'Application',
+        'Music',
+        'Users',
+        'Wall'
     ),
     'module_listener_options' => array(
         'module_paths' => array(

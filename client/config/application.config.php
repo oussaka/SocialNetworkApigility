@@ -2,7 +2,7 @@
 return array(
     'modules' => array(
         'Wall',
-        // 'Feeds',
+        'Feeds',
         'Api',
         'Users',
         'Common',

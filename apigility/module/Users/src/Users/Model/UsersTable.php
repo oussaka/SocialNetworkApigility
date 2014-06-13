@@ -29,7 +29,7 @@ class UsersTable extends AbstractTableGateway implements AdapterAwareInterface
     public function getByUsername($username)
     {
         $rowset = $this->select(array('username' => $username));
-        
+
         return $rowset->current();
     }
     
