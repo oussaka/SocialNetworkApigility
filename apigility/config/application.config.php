@@ -22,6 +22,7 @@ return array(
         'ZF\\Rpc',
         'ZF\\Versioning',
         'Application',
+        'Common',
         'Music',
         'Users',
         'Wall',

@@ -69,7 +69,7 @@ class UsersResource extends AbstractResourceListener
                     $usersTable->updateAvatar($image['id'], $user['id']);
                 }
 
-                // Mailer::sendWelcomeEmail($user['email'], $user['name']);
+                Mailer::sendWelcomeEmail($user['email'], $user['name']);
 
                 $result = array(
                     'result'    => true,
