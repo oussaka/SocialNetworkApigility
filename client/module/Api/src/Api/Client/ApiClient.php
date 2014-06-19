@@ -143,11 +143,11 @@ class ApiClient {
      */
     public static function authenticate($postData)
     {
-        $postData['grant_type'] = 'client_credentials';
+        /* $postData['grant_type'] = 'client_credentials';
         $postData['redirect_uri'] = 'http://example.com';
         $postData['client_id'] = 'zf2-client';
         $postData['client_secret'] = 'mysupersecretpass';
-        
+        */
         $url = self::$endpointHost . self::$endpointUserLogin;
         return self::doRequest($url, $postData, Request::METHOD_POST);
     }
@@ -231,7 +231,7 @@ class ApiClient {
         $response = $client->send();
 
         if ($response->isSuccess()) {
-            return JsonDecoder::decode($response->getBody(), Json::TYPE_ARRAY);
+             return JsonDecoder::decode($response->getBody(), Json::TYPE_ARRAY);
         } else {
             $logger = new Logger;
             $logger->addWriter(new Stream('data/logs/apiclient.log'));

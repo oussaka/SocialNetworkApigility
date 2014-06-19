@@ -99,8 +99,8 @@ class IndexController extends AbstractActionController
                 unset($data['csrf']);
                 unset($data['register']);
                 
-                $response = ApiClient::registerUser($data);
-                
+                 $response = ApiClient::registerUser($data);
+
                 if ($response['result'] == true) {
                     $auth = new AuthenticationService();
                     $authAdapter = new AuthAdapter($data['username'], $data['password']);
@@ -135,14 +135,15 @@ class IndexController extends AbstractActionController
             
             $loginForm->setInputFilter(User::getLoginInputFilter());
             $loginForm->setData($data);
-            
+
             if ($loginForm->isValid()) {
+
                 $data = $loginForm->getData();
-                
+
                 $auth = new AuthenticationService();
                 $authAdapter = new AuthAdapter($data['username'], $data['password']);
                 $result = $auth->authenticate($authAdapter);
-                
+
                 if (!$result->isValid()) {
                     foreach ($result->getMessages() as $msg) {
                         $flashMessenger->addMessage($msg);

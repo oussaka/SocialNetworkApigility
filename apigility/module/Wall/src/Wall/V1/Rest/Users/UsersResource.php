@@ -4,6 +4,8 @@ namespace Wall\V1\Rest\Users;
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 use Zend\ServiceManager\ServiceManager;
+use Zend\Crypt\Password\Bcrypt;
+use Common\Mailer;
 
 class UsersResource extends AbstractResourceListener
 {
@@ -30,12 +32,63 @@ class UsersResource extends AbstractResourceListener
     /**
      * Create a resource
      *
-     * @param  mixed $data
+     * @param  mixed $unfilteredData
      * @return ApiProblem|mixed
      */
-    public function create($data)
+    public function create($unfilteredData)
     {
-        return new ApiProblem(405, 'The POST method has not been defined');
+        $unfilteredData = (array) $unfilteredData;
+        $usersTable = $this->getUsersTable();
+
+        $filters = $usersTable->getInputFilter();
+        $filters->setData($unfilteredData);
+
+        if ($filters->isValid()) {
+            $data = $filters->getValues();
+
+            $avatarContent = array_key_exists('avatar', $unfilteredData) ? $unfilteredData['avatar'] : NULL;
+
+            $bcrypt = new Bcrypt();
+            $data['password'] = $bcrypt->create($data['password']);
+
+            if ($usersTable->create($data)) {
+                $user = $usersTable->getByUsername($data['username']);
+                if (!empty($avatarContent)) {
+                    $userImagesTable = $this->getUserImagesTable();
+
+                    $filename = sprintf('public/images/%s.png', sha1(uniqid(time(), TRUE)));
+                    $content = base64_decode($avatarContent);
+                    $image = imagecreatefromstring($content);
+
+                    if (imagepng($image, $filename) === TRUE) {
+                        $userImagesTable->create($user['id'], basename($filename));
+                    }
+                    imagedestroy($image);
+
+                    $image = $userImagesTable->getByFilename(basename($filename));
+                    $usersTable->updateAvatar($image['id'], $user['id']);
+                }
+
+                // Mailer::sendWelcomeEmail($user['email'], $user['name']);
+
+                $result = array(
+                    'result'    => true,
+                    'id'        =>  $usersTable->getLastInsertValue()
+
+                );
+            } else {
+                $result = array(
+                    'result' => false
+                );
+            }
+        } else {
+            $result = array(
+                'result' => false,
+                'errors' => $filters->getMessages()
+            );
+        }
+
+        return $result;
     }
 
     /**

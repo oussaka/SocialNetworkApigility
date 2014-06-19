@@ -2,6 +2,7 @@
 namespace Users\Model;
 
 use Zend\Db\Adapter\Adapter;
+use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\Adapter\AdapterAwareInterface;
 use Zend\Db\Sql\Expression;
@@ -38,11 +39,20 @@ class UserImagesTable extends AbstractTableGateway implements AdapterAwareInterf
      * Method to get entries by userId
      *
      * @param int $userId
+     * @param int $avatarId|null
      * @return Zend\Db\ResultSet\ResultSet
      */
-    public function getByUserId($userId)
+    public function getByUserId($userId, $avatarId = null)
     {
         $select = $this->sql->select()->where(array('user_id' => $userId))->order('created_at DESC');
+
+        if(!empty($avatarId)) {
+            // $where = new Where();
+            // $where->notEqualTo("id", $avatarId);
+            // $select->where($where);
+            $select->where("id <> ?", $avatarId);
+        }
+
         return $this->selectWith($select);
     }
     

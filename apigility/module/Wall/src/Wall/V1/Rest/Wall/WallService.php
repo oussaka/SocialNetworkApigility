@@ -61,9 +61,9 @@ class WallService implements ServiceManagerAwareInterface
 
         $userData = $usersTable->getByUsername($username);
         $userStatuses = $userStatusesTable->getByUserId($userData->id)->toArray();
-        $userImages = $userImagesTable->getByUserId($userData->id)->toArray();
+        $userImages = $userImagesTable->getByUserId($userData->id, $userData->avatar_id)->toArray();
         $userLinks = $userLinksTable->getByUserId($userData->id)->toArray();
-        
+
         if (!empty($userData)) {
             $wallData = $userData->getArrayCopy();
         }
