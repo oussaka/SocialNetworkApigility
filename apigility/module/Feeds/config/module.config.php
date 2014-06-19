@@ -13,6 +13,26 @@ return array(
             ),
         ),
     ),
+    'console' => array(
+        'router' => array(
+            'routes' => array(
+                'feeds-process' => array(
+                    'options' => array(
+                        'route' => 'feeds process [--verbose|-v]',
+                        'defaults' => array(
+                            'controller' => 'Feeds\Controller\Cli',
+                            'action'     => 'processFeeds'
+                        )
+                    )
+                )
+            )
+        )
+    ),
+    'controllers' => array(
+        'invokables' => array(
+            'Feeds\Controller\Cli' => 'Feeds\Controller\CliController',
+        ),
+    ),
     'zf-versioning' => array(
         'uri' => array(
             0 => 'feeds.rest.feeds',

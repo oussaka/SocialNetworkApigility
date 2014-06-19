@@ -36,29 +36,28 @@ class IndexController extends AbstractActionController
         $username = $this->params()->fromRoute('username');
 
         $currentFeedId = $this->params()->fromRoute('feed_id');
-//       var_dump($currentFeedId);
-//die('ici');
         $userData = ApiClient::getUser($username);
+
         if ($userData !== FALSE) {
             $hydrator = new ClassMethods();
-            
+
             $user = $hydrator->hydrate($userData, new User());
         } else {
             $this->getResponse()->setStatusCode(404);
             return;
         }
-        
+
         $subscribeForm = new SubscribeForm();
         $unsubscribeForm = new UnsubscribeForm();
         $subscribeForm->setAttribute('action', $this->url()->fromRoute('feeds-subscribe', array('username' => $username)));
         $unsubscribeForm->setAttribute('action', $this->url()->fromRoute('feeds-unsubscribe', array('username' => $username)));
-        
+
         $hydrator = new ClassMethods();
         $response = ApiClient::getFeeds($username);
 
         $feeds = array();
-        if(is_array($response) ) {
-            foreach ($response as $r) {
+        if(is_array($response['feeds']) ) {
+            foreach ($response['feeds'] as $r) {
                 $feeds[$r['id']] = $hydrator->hydrate($r, new Feed());
             }
         }
@@ -127,12 +126,11 @@ class IndexController extends AbstractActionController
             $data = $request->getPost()->toArray();
 
             $response = ApiClient::addFeedSubscription($username, array('url' => $data['url']));
-            // var_dump($response); die;
 
             if ($response['result'] == TRUE) {
                 $this->flashMessenger()->addMessage('Subscribed successfully!');
             } else {
-               $this->flashMessenger()->addMessage('error', 'Error on feed subscribe!');
+               $this->flashMessenger()->addMessage('Error on feed subscribe!');
                // return $this->getResponse()->setStatusCode(500);
             }
         }

@@ -49,6 +49,21 @@ return array(
             ),
         ),
     ),
+    'console' => array(
+        'router' => array(
+            'routes' => array(
+                'feeds-process' => array(
+                    'options' => array(
+                        'route' => 'feeds process [--verbose|-v]',
+                        'defaults' => array(
+                            'controller' => 'Application\Controller\Cli',
+                            'action'     => 'processFeeds'
+                        )
+                    )
+                )
+            )
+        )
+    ),
     'service_manager' => array(
         'abstract_factories' => array(
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',

@@ -95,8 +95,6 @@ class ApiClient {
     public static function addFeedSubscription($username, $postData)
     {
         $url = self::$endpointHost . sprintf(self::$endpointFeeds, $username);
-        var_dump($url);
-        var_dump($postData); die;
         return self::doRequest($url, $postData, Request::METHOD_POST);
     }
     

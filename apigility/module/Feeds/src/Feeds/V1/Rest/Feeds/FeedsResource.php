@@ -162,6 +162,7 @@ class FeedsResource extends AbstractResourceListener
      */
     public function fetch($username)
     {
+
         // $username = $this->params()->fromRoute('username');
         $usersTable = $this->getTable('UsersTable');
         $user = $usersTable->getByUsername($username);
@@ -170,9 +171,16 @@ class FeedsResource extends AbstractResourceListener
 
         $feedsFromDb = $userFeedsTable->getByUserId($user->id);
         $feeds = array();
-        foreach ($feedsFromDb as $f) {
-            $feeds[$f->id] = $f;
-            $feeds[$f->id]['articles'] = $userFeedArticlesTable->getByFeedId($f->id)->toArray();
+         foreach ($feedsFromDb as $f) {
+            $feeds["feeds"][$f->id] = $f;
+            $feeds["feeds"][$f->id]['articles'] = $userFeedArticlesTable->getByFeedId($f->id)->toArray();
+        }
+
+        if(!empty($feeds)) {
+            $feeds = array_merge($feeds, array(
+                "id"   => $user->id,
+                "username"  => $user->username
+            ));
         }
 
         return $feeds;
