@@ -36,30 +36,38 @@ class LoginResource extends AbstractResourceListener
 
         $bcrypt = new Bcrypt();
         if (!empty($user) && $bcrypt->verify($data->password, $user->password)) {
-            /* $storage = new Pdo($usersTable->adapter->getDriver()->getConnection()->getConnectionParameters());
+
+            /*
+            $storage = new Pdo($usersTable->adapter->getDriver()->getConnection()->getConnectionParameters());
+            // $storage->setClientDetails("testclient", 'testpass', "http://example.com");
             $server = new Server($storage);
             $server->addGrantType(new ClientCredentials($storage));
+            // $request = \OAuth2\Request::createFromGlobals();
+            // $token = $server->grantAccessToken($request);
+            // echo json_encode($token);
             $response = $server->handleTokenRequest(Request::createFromGlobals());
 
             if (!$response->isSuccessful()) {
-                $result = array(
+                $result = new JsonModel(array(
                     'result' => false,
-                    'errors' => 'Invalid oauth',
-                    // 'id' => $user->id
-                );
+                    'errors' => 'Invalid oauth'
+                ));
             }
 
-            return new JsonModel($response->getParameters()); */
+            return new JsonModel($response->getParameters());
+            */
+
             $result = array(
+                'id' => $user->id,
                 'result' => true,
-                'errors' => null,
-                'id' => $user->id
+                'errors' => 'connected with success.'
             );
         } else {
-            $result = array(
+            $result = new ApiProblem(422, 'Invalid Username or password');
+            /* $result = array(
                 'result' => false,
                 'errors' => 'Invalid Username or password'
-            );
+            ); */
         }
 
         return $result;

@@ -184,4 +184,56 @@ return array(
             ),
         ),
     ),
+    'zf-mvc-auth' => array(
+        'authorization' => array(
+            'Wall\\V1\\Rest\\Wall\\Controller' => array(
+                'entity' => array(
+                    'GET' => true,
+                    'POST' => true,
+                    'PATCH' => false,
+                    'PUT' => true,
+                    'DELETE' => false,
+                ),
+                'collection' => array(
+                    'GET' => false,
+                    'POST' => false,
+                    'PATCH' => false,
+                    'PUT' => false,
+                    'DELETE' => false,
+                ),
+            ),
+            'Wall\\V1\\Rest\\Users\\Controller' => array(
+                'entity' => array(
+                    'GET' => false,
+                    'POST' => false,
+                    'PATCH' => false,
+                    'PUT' => false,
+                    'DELETE' => false,
+                ),
+                'collection' => array(
+                    'GET' => false,
+                    'POST' => false,
+                    'PATCH' => false,
+                    'PUT' => false,
+                    'DELETE' => false,
+                ),
+            ),
+            'Wall\\V1\\Rest\\Login\\Controller' => array(
+                'entity' => array(
+                    'GET' => false,
+                    'POST' => false,
+                    'PATCH' => false,
+                    'PUT' => false,
+                    'DELETE' => false,
+                ),
+                'collection' => array(
+                    'GET' => false,
+                    'POST' => false,
+                    'PATCH' => false,
+                    'PUT' => false,
+                    'DELETE' => false,
+                ),
+            ),
+        ),
+    ),
 );

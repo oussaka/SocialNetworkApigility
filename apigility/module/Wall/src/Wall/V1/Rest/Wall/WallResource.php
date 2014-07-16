@@ -2,7 +2,6 @@
 namespace Wall\V1\Rest\Wall;
 
 use ZF\ApiProblem\ApiProblem;
-use Zend\View\Model\JsonModel;
 use ZF\Rest\AbstractResourceListener;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;

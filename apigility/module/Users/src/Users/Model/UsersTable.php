@@ -5,13 +5,22 @@ use Zend\Db\Adapter\Adapter;
 use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\Adapter\AdapterAwareInterface;
 use Zend\Db\Sql\Expression;
-use Zend\InputFilter\InputFilter;
-use Zend\InputFilter\Factory as InputFactory;
+//use Zend\InputFilter\InputFilter;
+//use Zend\InputFilter\Factory as InputFactory;
 
-class UsersTable extends AbstractTableGateway implements AdapterAwareInterface
+// Add these import statements
+use Zend\InputFilter\Factory as InputFactory;
+use Zend\InputFilter\InputFilter;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\InputFilter\InputFilterInterface;
+
+
+
+class UsersTable extends AbstractTableGateway implements AdapterAwareInterface, InputFilterAwareInterface
 {
     protected $table = 'users';
-    
+    protected $inputFilter;
+
     /**
      * Set db adapter
      *
@@ -78,6 +87,10 @@ class UsersTable extends AbstractTableGateway implements AdapterAwareInterface
         );
     }
 
+    public function setInputFilter(InputFilterInterface $inputFilter)
+    {
+        throw new \Exception("Not used");
+    }
 
     /**
      * Return a configured input filter to be able to validate and
@@ -87,163 +100,168 @@ class UsersTable extends AbstractTableGateway implements AdapterAwareInterface
      */
     public function getInputFilter()
     {
-        $inputFilter = new InputFilter();
-        $factory = new InputFactory();
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+            $factory = new InputFactory();
 
-        $inputFilter->add($factory->createInput(array(
-            'name'     => 'username',
-            'required' => true,
-            'filters'  => array(
-                array('name' => 'StripTags'),
-                array('name' => 'StringTrim'),
-            ),
-            'validators' => array(
-                array(
-                    'name' => 'NotEmpty',
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'username',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
                 ),
-                array(
-                    'name' => 'StringLength',
-                    'options' => array(
-                        'min' => 1,
-                        'max' => 50
+                'validators' => array(
+                    array(
+                        'name' => 'NotEmpty',
+                    ),
+                    array(
+                        'name' => 'StringLength',
+                        'options' => array(
+                            'min' => 1,
+                            'max' => 50
+                        ),
+                    ),
+                    array(
+                        'name' => 'Zend\Validator\Db\NoRecordExists',
+                        'options' => array(
+                            'table' => 'users',
+                            'field' => 'username',
+                            'adapter' => $this->adapter
+                        )
+                    )
+                ),
+            )));
+
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'email',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name' => 'NotEmpty',
+                    ),
+                    array(
+                        'name' => 'StringLength',
+                        'options' => array(
+                            'min' => 6,
+                            'max' => 254
+                        ),
+                    ),
+                    array(
+                        'name' => 'EmailAddress',
+                    ),
+                    array(
+                        'name' => 'Zend\Validator\Db\NoRecordExists',
+                        'options' => array(
+                            'table' => 'users',
+                            'field' => 'email',
+                            'adapter' => $this->adapter
+                        )
+                    )
+                ),
+            )));
+
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'password',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name' => 'NotEmpty',
                     ),
                 ),
-                array(
-                    'name' => 'Zend\Validator\Db\NoRecordExists',
-                    'options' => array(
-                        'table' => 'users',
-                        'field' => 'username',
-                        'adapter' => $this->adapter
-                    )
-                )
-            ),
-        )));
+            )));
 
-        $inputFilter->add($factory->createInput(array(
-            'name'     => 'email',
-            'required' => true,
-            'filters'  => array(
-                array('name' => 'StripTags'),
-                array('name' => 'StringTrim'),
-            ),
-            'validators' => array(
-                array(
-                    'name' => 'NotEmpty',
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'name',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
                 ),
-                array(
-                    'name' => 'StringLength',
-                    'options' => array(
-                        'min' => 6,
-                        'max' => 254
+                'validators' => array(
+                    array(
+                        'name' => 'NotEmpty',
+                    ),
+                    array(
+                        'name' => 'StringLength',
+                        'options' => array(
+                            'min' => 1,
+                            'max' => 25
+                        )
                     ),
                 ),
-                array(
-                    'name' => 'EmailAddress',
-                ),
-                array(
-                    'name' => 'Zend\Validator\Db\NoRecordExists',
-                    'options' => array(
-                        'table' => 'users',
-                        'field' => 'email',
-                        'adapter' => $this->adapter
-                    )
-                )
-            ),
-        )));
+            )));
 
-        $inputFilter->add($factory->createInput(array(
-            'name'     => 'password',
-            'required' => true,
-            'filters'  => array(
-                array('name' => 'StripTags'),
-                array('name' => 'StringTrim'),
-            ),
-            'validators' => array(
-                array(
-                    'name' => 'NotEmpty',
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'surname',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
                 ),
-            ),
-        )));
-
-        $inputFilter->add($factory->createInput(array(
-            'name'     => 'name',
-            'required' => true,
-            'filters'  => array(
-                array('name' => 'StripTags'),
-                array('name' => 'StringTrim'),
-            ),
-            'validators' => array(
-                array(
-                    'name' => 'NotEmpty',
+                'validators' => array(
+                    array(
+                        'name' => 'NotEmpty',
+                    ),
+                    array(
+                        'name' => 'StringLength',
+                        'options' => array(
+                            'min' => 1,
+                            'max' => 50
+                        )
+                    ),
                 ),
-                array(
-                    'name' => 'StringLength',
-                    'options' => array(
-                        'min' => 1,
-                        'max' => 25
-                    )
+            )));
+
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'bio',
+                'required' => false,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
                 ),
-            ),
-        )));
+            )));
 
-        $inputFilter->add($factory->createInput(array(
-            'name'     => 'surname',
-            'required' => true,
-            'filters'  => array(
-                array('name' => 'StripTags'),
-                array('name' => 'StringTrim'),
-            ),
-            'validators' => array(
-                array(
-                    'name' => 'NotEmpty',
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'location',
+                'required' => false,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
                 ),
-                array(
-                    'name' => 'StringLength',
-                    'options' => array(
-                        'min' => 1,
-                        'max' => 50
-                    )
+            )));
+
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'gender',
+                'required' => false,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                    array('name' => 'Int'),
                 ),
-            ),
-        )));
-
-        $inputFilter->add($factory->createInput(array(
-            'name'     => 'bio',
-            'required' => false,
-            'filters'  => array(
-                array('name' => 'StripTags'),
-                array('name' => 'StringTrim'),
-            ),
-        )));
-
-        $inputFilter->add($factory->createInput(array(
-            'name'     => 'location',
-            'required' => false,
-            'filters'  => array(
-                array('name' => 'StripTags'),
-                array('name' => 'StringTrim'),
-            ),
-        )));
-
-        $inputFilter->add($factory->createInput(array(
-            'name'     => 'gender',
-            'required' => false,
-            'filters'  => array(
-                array('name' => 'StripTags'),
-                array('name' => 'StringTrim'),
-                array('name' => 'Int'),
-            ),
-            'validators' => array(
-                array(
-                    'name' => 'InArray',
-                    'options' => array(
-                        'haystack' => array('0', '1')
-                    )
+                'validators' => array(
+                    array(
+                        'name' => 'InArray',
+                        'options' => array(
+                            'haystack' => array('0', '1')
+                        )
+                    ),
                 ),
-            ),
-        )));
+            )));
 
-        return $inputFilter;
+            $this->inputFilter = $inputFilter;
+        }
+
+        return $this->inputFilter;
+
     }
-}
 
+}

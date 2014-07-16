@@ -21,12 +21,13 @@ return array(
         'ZF\\Rest',
         'ZF\\Rpc',
         'ZF\\Versioning',
+        // 'Auth',
         'Application',
         'Common',
         'Music',
         'Users',
         'Wall',
-        'Feeds'
+        'Feeds',
     ),
     'module_listener_options' => array(
         'module_paths' => array(

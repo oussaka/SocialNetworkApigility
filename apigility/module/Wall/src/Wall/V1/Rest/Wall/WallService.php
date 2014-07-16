@@ -91,6 +91,20 @@ class WallService implements ServiceManagerAwareInterface
     public function saveWall($data) 
     {
 
+
+        // $dsn is the Data Source Name for your database, for exmaple "mysql:dbname=my_oauth2_db;host=localhost"
+        $storage = new \OAuth2\Storage\Pdo(array('dsn' => "sqlite:./data/oauth2-test.sqlite", 'username' => "", 'password' => ""));
+// Pass a storage object or array of storage objects to the OAuth2 server class
+        $server = new \OAuth2\Server($storage);
+// Add the "Client Credentials" grant type (it is the simplest of the grant types)
+        // $server->addGrantType(new \OAuth2\GrantType\ClientCredentials($storage));
+        // $server->addGrantType(new \OAuth2\GrantType\ClientCredentials($storage));
+// Add the "Authorization Code" grant type (this is where the oauth magic happens)
+        // $server->addGrantType(new \OAuth2\GrantType\AuthorizationCode($storage));
+        // $server->handleTokenRequest(\OAuth2\Request::createFromGlobals())->send();
+
+        die;
+
         $dataArray = (array) $data;
 
         // $data = $dataArray->getArrayCopy();

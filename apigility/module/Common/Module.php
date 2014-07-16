@@ -50,6 +50,6 @@ class Module
         $sm = $app->getServiceManager();
         $events = $app->getEventManager();
         // $events->attach($sm->get('Common\Listeners\ApiErrorListener'));
-        $events->attach($sm->get('Common\Listeners\OAuthListener'));
+        // $events->attach($sm->get('Common\Listeners\OAuthListener'));
     }
 }

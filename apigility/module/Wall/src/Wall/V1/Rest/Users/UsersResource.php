@@ -37,6 +37,7 @@ class UsersResource extends AbstractResourceListener
      */
     public function create($unfilteredData)
     {
+
         $unfilteredData = (array) $unfilteredData;
         $usersTable = $this->getUsersTable();
 
@@ -69,6 +70,16 @@ class UsersResource extends AbstractResourceListener
                     $usersTable->updateAvatar($image['id'], $user['id']);
                 }
 
+
+                /**
+                 * oauth if use grant_type = password, need store username and password in oauth_users table
+                 */
+                /*
+                $service = $this->getRegistrationService();
+                if (!$this->getRegistrationService()->processRegistration($data)) {
+                    return new ApiProblem(422, 'User not enregistred in oauth_users', null, 'Error');
+                } */
+
                 Mailer::sendWelcomeEmail($user['email'], $user['name']);
 
                 $result = array(
@@ -82,10 +93,13 @@ class UsersResource extends AbstractResourceListener
                 );
             }
         } else {
-            $result = array(
+            return new \ZF\ApiProblem\ApiProblemResponse(
+                new ApiProblem(422, $filters->getMessages(), null, "Invalid data")
+            );
+            /* $result = array(
                 'result' => false,
                 'errors' => $filters->getMessages()
-            );
+            ); */
         }
 
         return $result;
@@ -210,6 +224,11 @@ class UsersResource extends AbstractResourceListener
             $this->userImagesTable = $sm->get('Users\Model\UserImagesTable');
         }
         return $this->userImagesTable;
+    }
+
+    public function getRegistrationService()
+    {
+        return $this->getServiceManager()->get('Auth\Service\RegistrationService');
     }
 
     /**

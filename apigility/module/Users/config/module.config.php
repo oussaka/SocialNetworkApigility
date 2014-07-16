@@ -16,4 +16,13 @@ return array(
             'Users\Model\UserImagesTable' => 'Users\Model\UserImagesTable',
         )
     ),
+    'service_manager'=>array(
+        'initializers' => array(
+            function ($instance, $sm) {
+                if ($instance instanceof \Zend\Db\Adapter\AdapterAwareInterface) {
+                    $instance->setDbAdapter($sm->get('Zend\Db\Adapter\Adapter'));
+                }
+            }
+        ),
+    ),
 );

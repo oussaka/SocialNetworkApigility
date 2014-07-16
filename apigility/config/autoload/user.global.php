@@ -19,6 +19,7 @@
 return array(
   'db' => array(
     'driver' => 'Pdo_Mysql',
+    'database' => 'sn',
   ),
   'service_manager' => array(
     'factories' => array(
