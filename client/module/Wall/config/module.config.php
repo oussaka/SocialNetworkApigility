@@ -23,7 +23,7 @@ return array(
                         'page'       => 1
                     ),
                 ),
-            )
+            ),
         ),
     ),
     'controllers' => array(

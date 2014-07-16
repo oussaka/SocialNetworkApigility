@@ -19,6 +19,9 @@ use Zend\Validator\File\IsImage;
 use Zend\Authentication\AuthenticationService;
 use Common\Authentication\Adapter\Api as AuthAdapter;
 
+use Zend\Http\Client;
+use Zend\Http\Request;
+
 class IndexController extends AbstractActionController
 {
     /**
@@ -123,6 +126,7 @@ class IndexController extends AbstractActionController
      */
     public function loginAction()
     {
+
         $viewData = array();
         $flashMessenger = $this->flashMessenger();
         
@@ -175,5 +179,10 @@ class IndexController extends AbstractActionController
         }
         
         return $this->redirect()->toRoute('users-login');
+    }
+
+    public function getRegistrationService()
+    {
+        return $this->getServiceManager()->get('Auth\RegistrationService');
     }
 }

@@ -22,7 +22,7 @@ class Module
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
         
-        // $e->getApplication()->getEventManager()->attach('route', array($this, 'checkAcl'));
+        $e->getApplication()->getEventManager()->attach('route', array($this, 'checkAcl'));
     }
 
     public function getConfig()

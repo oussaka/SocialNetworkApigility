@@ -35,7 +35,6 @@ class IndexController extends AbstractActionController
         
         /* $auth = new AuthenticationService();
         $loggedInUser = $auth->getIdentity();
-        
         if ($loggedInUser === null) {
             return;
         } */
@@ -55,6 +54,10 @@ class IndexController extends AbstractActionController
 
         $hydrator = new ClassMethods();
         $wallData = ApiClient::getWall($username);
+        /* if( empty($wallData) ) {
+            $viewData['flashMessages'] = "Empty Feed!";
+            return;
+        } */
         $wall = $hydrator->hydrate($wallData, new Wall());
 
         $paginator = new Paginator(new ArrayAdapter($wall->getFeed()));
@@ -194,7 +197,6 @@ class IndexController extends AbstractActionController
                 }
 
                 $response = ApiClient::postWallContent($user->getUsername(), $data);
-                // var_dump( $response ); die;
                 return $response['result'];
             }
         }
@@ -267,4 +269,5 @@ class IndexController extends AbstractActionController
         
         return $form;
     }
+    
 }

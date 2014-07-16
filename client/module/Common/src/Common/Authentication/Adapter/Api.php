@@ -39,16 +39,27 @@ class Api implements AdapterInterface
      */
     public function authenticate()
     {
-        $result = ApiClient::authenticate(array(
-            'username' => $this->username,
-            'password' => $this->password
-        ));
 
-        if ($result['result'] === true) {
-            $hydrator = new ClassMethods();
-            $user = $hydrator->hydrate(ApiClient::getUser($this->username), new User());
+        $result = ApiClient::getToken();
 
-            $response = new Result(Result::SUCCESS, $user, array('Authentication successful.'));
+        if (array_key_exists('access_token', $result) && !empty($result['access_token'])) {
+
+            $session = new Container('oauth_session');
+            $session->setExpirationSeconds($result['expires_in']);
+            $session->accessToken = $result['access_token'];
+
+            $loginresult = ApiClient::authenticate(array(
+                'username' => $this->username,
+                'password' => $this->password
+            ));
+            if(!$loginresult["result"]) {
+                $response = new Result(Result::SUCCESS, NULL, array('Invalid Username or password'));
+            } else {
+
+                $hydrator = new ClassMethods();
+                $user = $hydrator->hydrate(ApiClient::getUser($this->username), new User());
+                $response = new Result(Result::SUCCESS, $user, array('Authentication successful.'));
+            }
         } else {
             $response = new Result(Result::FAILURE, NULL , array('Invalid credentials.'));
         }
