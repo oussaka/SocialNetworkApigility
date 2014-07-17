@@ -6,6 +6,8 @@ nbproject
 .idea
 .project
 .settings
+vendor/
+public/vendor/
 composer.lock
 data/tmp/*.png
 data/tmp/*.jpg

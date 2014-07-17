@@ -1,4 +1,4 @@
-ZendSkeletonApplication
+Social Network Client
 =======================
 
 Introduction
@@ -40,13 +40,3 @@ then pass it to `tar`:
 You would then invoke `composer` to install dependencies per the previous
 example.
 
-Using Git submodules
---------------------
-Alternatively, you can install using native git submodules:
-
-    git clone git://github.com/zendframework/ZendSkeletonApplication.git --recursive
-
-Virtual Host
-------------
-Afterwards, set up a virtual host to point to the public/ directory of the
-project and you should be ready to go!
