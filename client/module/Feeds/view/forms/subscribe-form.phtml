@@ -1,0 +1,11 @@
+<?php $form = $this->form; ?>
+<?php $form->prepare(); ?>
+<?php echo $this->form()->openTag($form) ?>
+<label><?php echo $this->translate('Add a new subscription') ?></label>
+<?php echo $this->formElement($form->get('url')); ?>
+<?php echo $this->formButton($form->get('subscribe'), 'Add'); ?>
+<?php echo $this->formElementErrors($form->get('url')); ?>
+<?php echo $this->formElement($form->get('csrf')); ?>
+<?php echo $this->formElementErrors($form->get('csrf')); ?>
+
+<?php echo $this->form()->closeTag() ?>

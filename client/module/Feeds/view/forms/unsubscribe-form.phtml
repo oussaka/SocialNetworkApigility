@@ -1,0 +1,9 @@
+<?php $form = $this->form; ?>
+<?php $form->prepare(); ?>
+<?php echo $this->form()->openTag($form) ?>
+<?php echo $this->formElement($form->get('feed_id')); ?>
+<?php echo $this->formElement($form->get('unsubscribe')); ?>
+<?php echo $this->formElement($form->get('csrf')); ?>
+<?php echo $this->formElementErrors($form->get('csrf')); ?>
+
+<?php echo $this->form()->closeTag() ?>

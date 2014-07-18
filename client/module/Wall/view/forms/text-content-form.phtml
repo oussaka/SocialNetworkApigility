@@ -1,0 +1,10 @@
+<?php $form = $this->form; ?>
+<?php $form->prepare(); ?>
+<?php echo $this->form()->openTag($form) ?>
+<?php echo $this->formElement($form->get('status')); ?>
+<?php echo $this->formElement($form->get('submit')); ?>
+<?php echo $this->formElementErrors($form->get('status')); ?>
+<?php echo $this->formElement($form->get('csrf')); ?>
+<?php echo $this->formElementErrors($form->get('csrf')); ?>
+
+<?php echo $this->form()->closeTag() ?>
