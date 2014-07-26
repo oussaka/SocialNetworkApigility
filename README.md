@@ -66,12 +66,12 @@ go to Client directory.
     cd ../client
     php composer self-update
     php composer.phar install
-    bower install
 
 
 TODO
 =
 
+- use bower
 - use bootstrap 3.0
 - add contact form
 - some AngularJs features in client side
