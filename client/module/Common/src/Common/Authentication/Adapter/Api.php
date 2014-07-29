@@ -42,7 +42,7 @@ class Api implements AdapterInterface
 
         $result = ApiClient::getToken();
 
-        if (array_key_exists('access_token', $result) && !empty($result['access_token'])) {
+        if (is_array($result) && array_key_exists('access_token', $result) && !empty($result['access_token'])) {
 
             $session = new Container('oauth_session');
             $session->setExpirationSeconds($result['expires_in']);
@@ -52,8 +52,11 @@ class Api implements AdapterInterface
                 'username' => $this->username,
                 'password' => $this->password
             ));
+
             if(!$loginresult["result"]) {
-                $response = new Result(Result::SUCCESS, NULL, array('Invalid Username or password'));
+                $session->getManager()->getStorage()->clear('oauth_session');
+                // $session->getManager()->destroy();
+                $response = new Result(Result::FAILURE, NULL, array('Invalid Username or password'));
             } else {
 
                 $hydrator = new ClassMethods();

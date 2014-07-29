@@ -48,7 +48,9 @@ CREATE TABLE IF NOT EXISTS `oauth_clients` (
   PRIMARY KEY (`client_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
-INSERT INTO `oauth_clients` VALUES ('social_netwotk_client', '$2y$10$NCgZy5Vufl6.uzmp27J4tOhe9EHTfTeBkjG2vm8f2DRqDBYgXoDTK', 'http://example.com', NULL, NULL, NULL);
+INSERT INTO `oauth_clients` (`client_id`, `client_secret`, `redirect_uri`)
+VALUES
+  ('social_client_id','$2y$10$dOkjgC05z6xZIu.0Nix0NeCw7HFkwdbnlJfVY2crIkmtzLWN90IvK','http://example.com');
 
 
 
@@ -78,8 +80,10 @@ CREATE TABLE IF NOT EXISTS `oauth_refresh_tokens` (
 
 -- Export de la structure de table sn. oauth_scopes
 CREATE TABLE IF NOT EXISTS `oauth_scopes` (
+  `type` VARCHAR(255) NOT NULL DEFAULT "supported",
   `scope` text COLLATE latin1_general_ci,
-  `is_default` tinyint(1) DEFAULT NULL
+  `client_id` text COLLATE latin1_general_ci,
+  `is_default` VARCHAR (80),
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 -- L'exportation de données n'été pas sélectionné.

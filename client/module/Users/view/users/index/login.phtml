@@ -1,2 +1,12 @@
 <h1><?php echo $this->translate('Login') ?></h1>
+
+
+<?php 
+	$Template = '<div class="alert alert-%s"><button type="button" class="close" data-dismiss="alert">&times;</button>%s</div>';
+	if(is_array($this->msglogin)) {
+		echo sprintf($Template, array_keys($this->msglogin)[0], array_values($this->msglogin)[0]);
+	}
+ ?>
+
+
 <?php echo $this->partial('forms/login-form.phtml', array('form' => $loginForm)); ?>

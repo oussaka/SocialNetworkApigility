@@ -31,6 +31,7 @@ class IndexController extends AbstractActionController
      */
     public function indexAction()
     {
+
         $auth = new AuthenticationService();
         $loggedInUser = $auth->getIdentity();
         
@@ -129,7 +130,7 @@ class IndexController extends AbstractActionController
 
         $viewData = array();
         $flashMessenger = $this->flashMessenger();
-        
+
         $loginForm = new LoginForm();
         $loginForm->setAttribute('action', $this->url()->fromRoute('users-login'));
         
@@ -150,9 +151,11 @@ class IndexController extends AbstractActionController
 
                 if (!$result->isValid()) {
                     foreach ($result->getMessages() as $msg) {
-                        $flashMessenger->addMessage($msg);
+                        // $flashMessenger->addMessage(array("error" => $msg));
+                        $viewData['msglogin'] = array("error" => $msg);
                     }
                 } else {
+                    $this->flashMessenger()->addMessage('User Logged.');
                     return $this->redirect()->toRoute('wall', array('username' => $data['username']));
                 }
             }

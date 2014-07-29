@@ -142,8 +142,8 @@ class ApiClient {
     {
         $postData['grant_type'] = 'client_credentials';
         $postData['redirect_uri'] = 'http://example.com';
-        $postData['client_id'] = 'social_netwotk_client';
-        $postData['client_secret'] = 'testpass';
+        $postData['client_id'] = 'social_client_id';
+        $postData['client_secret'] = 'socialapipass';
         /**
          * if grant_type = password use this:
          * user password, stored in oauth_users table
@@ -242,6 +242,7 @@ class ApiClient {
         if ($method == Request::METHOD_POST && $postData !== null) {
             // $client->setParameterPost($postData);
             if ($postData !== null) {
+
                 $client->setRawBody(
                     json_encode($postData)
                 );

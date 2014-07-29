@@ -29,15 +29,14 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-        set_time_limit("80");
         $viewData = array();
         $flashMessenger = $this->flashMessenger();
         
-        /* $auth = new AuthenticationService();
+        $auth = new AuthenticationService();
         $loggedInUser = $auth->getIdentity();
         if ($loggedInUser === null) {
             return;
-        } */
+        }
 
         $username = $this->params()->fromRoute('username');
         $this->layout()->username = $username;
@@ -54,10 +53,11 @@ class IndexController extends AbstractActionController
 
         $hydrator = new ClassMethods();
         $wallData = ApiClient::getWall($username);
-        /* if( empty($wallData) ) {
+     
+        if( empty($wallData) ) {
             $viewData['flashMessages'] = "Empty Feed!";
             return;
-        } */
+        }
         $wall = $hydrator->hydrate($wallData, new Wall());
 
         $paginator = new Paginator(new ArrayAdapter($wall->getFeed()));
@@ -93,7 +93,7 @@ class IndexController extends AbstractActionController
             if (array_key_exists('comment', $data)) {
                 $result = $this->createComment($commentForm, $loggedInUser, $data);
             }
-            
+           
             switch (true) {
                 case $result instanceOf TextStatusForm:
                     $statusForm = $result;

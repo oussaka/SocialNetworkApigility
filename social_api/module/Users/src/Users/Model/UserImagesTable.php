@@ -44,14 +44,17 @@ class UserImagesTable extends AbstractTableGateway implements AdapterAwareInterf
      */
     public function getByUserId($userId, $avatarId = null)
     {
-        $select = $this->sql->select()->where(array('user_id' => $userId))->order('created_at DESC');
+        $select = $this->sql->select();
+            
+        $where = new Where();
+        $where->equalTo('user_id', $userId);
+
 
         if(!empty($avatarId)) {
-            // $where = new Where();
-            // $where->notEqualTo("id", $avatarId);
-            // $select->where($where);
-            $select->where("id <> ?", $avatarId);
+            $where->and->notEqualTo("id", $avatarId);
         }
+        $select->where($where, \Zend\Db\Sql\Predicate\PredicateSet::OP_AND);
+        $select->order('created_at DESC');
 
         return $this->selectWith($select);
     }
