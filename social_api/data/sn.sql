@@ -48,9 +48,6 @@ CREATE TABLE IF NOT EXISTS `oauth_clients` (
   PRIMARY KEY (`client_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
-INSERT INTO `oauth_clients` (`client_id`, `client_secret`, `redirect_uri`)
-VALUES
-  ('social_client_id','$2y$10$dOkjgC05z6xZIu.0Nix0NeCw7HFkwdbnlJfVY2crIkmtzLWN90IvK','http://example.com');
 
 
 
@@ -83,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `oauth_scopes` (
   `type` VARCHAR(255) NOT NULL DEFAULT "supported",
   `scope` text COLLATE latin1_general_ci,
   `client_id` text COLLATE latin1_general_ci,
-  `is_default` VARCHAR (80),
+  `is_default` VARCHAR (80)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 -- L'exportation de données n'été pas sélectionné.
